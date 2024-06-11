@@ -1,6 +1,6 @@
 # testapp
 
-A new Flutter project.
+A new Flutter project testing out push notifications.
 
 ## Getting Started
 
