@@ -59,7 +59,6 @@ class HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.lightBlue[50],
               foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -78,7 +77,6 @@ class HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.lightBlue[50],
               foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
