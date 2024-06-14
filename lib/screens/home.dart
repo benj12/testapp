@@ -25,29 +25,38 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Virtues app'),
+        flexibleSpace: Image.asset('assets/images/sky.jpeg', fit: BoxFit.cover),
+        toolbarHeight: 200,
+        // backgroundColor: Colors.transparent,
+        // iconTheme: const IconThemeData(color: Colors.white),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.contain, height: 32),
+            // padding: const EdgeInsets.all(8.0), 
+            // child: 
+            Text('Virtues App'),
+          ],
+          // Container(
+            
+          // ),
+        ),
+        // title: const Text('Virtues app'),
       ),
       body: Center(
         child: Column (
         children: <Widget> [
           const Padding(
-            padding: EdgeInsets.only(bottom: 25)
+            padding: EdgeInsets.only(bottom: 240)
           ),
-          Image.asset(
-            "assets/images/tesla-truck.jpeg",
-            height: 200,
-            width: 200
-          ),
-        // SizedBox(
-        //   width: 180,
-        //   height: 50,
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.lightBlue[50],
               foregroundColor: Colors.black,
             ),
             //TODO: Make a favorites button with a heart icon right by Saints picture
@@ -66,7 +75,7 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.lightBlue[50],
               foregroundColor: Colors.black,
             ),
             //TODO: Make a favorites button with a heart icon right by Saints picture
@@ -85,7 +94,7 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.lightBlue[50],
               foregroundColor: Colors.black,
             ),
             //TODO: Make a favorites button with a heart icon right by Saints picture
@@ -99,51 +108,24 @@ class HomeScreenState extends State<HomeScreen> {
               'Test3',
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     LocalNotificationService.showBigTextNotification(
-          //       title: 'New message title', 
-          //       body: 'body', 
-          //       flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin
-          //     );
-          //   },
-          //   child: const Text(
-          //     'Send push notification',
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //     ),
-          //   ),
-          // )
-        // ),
+          ElevatedButton(
+            onPressed: () {
+              LocalNotificationService.showBigTextNotification(
+                title: 'New message title', 
+                body: 'body', 
+                flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin
+              );
+            },
+            child: const Text(
+              'Send push notification',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+          ),
         ],
         ),
       ),
     );
   }
-  // Widget build(BuildContext context) => Scaffold(
-  //   body: Center(
-  //     child: Column(
-  //       children: <Widget>[
-  //         const Padding(  
-  //           padding: EdgeInsets.only(top: 105),
-  //         ),
-  //         ElevatedButton(
-  //           style: ElevatedButton.styleFrom(
-  //             shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(20),
-  //             ),
-  //             backgroundColor: Colors.red,
-  //             foregroundColor: Colors.black,
-  //           ),
-  //           onPressed: () async {
-
-  //           },
-  //           child: const Text(
-  //             'Send push notification'
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   ),
-  // );
 }
