@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/screens/home.dart';
-
-void main() {
+import 'package:testapp/services/schedule_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ScheduleNotificationServices.init();
+  tz.initializeTimeZones();
   runApp(const MyApp());
 }
 
