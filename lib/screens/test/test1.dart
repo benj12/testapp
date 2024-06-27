@@ -7,17 +7,21 @@ class Test1Screen extends StatefulWidget {
   Test1ScreenState createState() => Test1ScreenState();
 }
 
+
 class Test1ScreenState extends State<Test1Screen> {
+  final String title = "Test1";
+  final String virtueDefinition = "Test1 is a test page.";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Test 1 page'),
+        title: Text(title),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Test 1 Page',
-          style: TextStyle(color: Colors.black),
+          virtueDefinition,
+          style: const TextStyle(color: Colors.black),
+          textAlign: TextAlign.center,
         ),
       ),
       // body: Center(
