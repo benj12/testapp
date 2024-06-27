@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 class Test3Screen extends StatelessWidget {
   const Test3Screen({super.key});
-
+  final String virtue = "Test3";
+  final String virtueDefinition = "This is a test page for test3";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Test 3 page'),
+        title: Text(virtue),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Test 3 Page',
-          style: TextStyle(color: Colors.black),
+          virtueDefinition,
+          style: const TextStyle(color: Colors.black),
+          textAlign: TextAlign.center,
         ),
       ),
       // body: Center(

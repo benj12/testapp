@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 
 class Test2Screen extends StatelessWidget {
   const Test2Screen({super.key});
+  final String title = "Test2";
+  final String virtueDefinition = "This is a test2 page";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Test 2 page'),
+        title: Text(title),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Test 2 Page',
-          style: TextStyle(color: Colors.black),
+          virtueDefinition,
+          style: const TextStyle(color: Colors.black),
+          textAlign: TextAlign.center,
         ),
       ),
       // body: Center(
