@@ -454,32 +454,37 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             Transform.scale(
               scale: 1.0,
-              child: Switch(
+              child: CupertinoSwitch(
                 value: value,
                 onChanged: (onChanged) {
                   setState(() {
                     value = onChanged;
+                    //if user presses on notification button
                     if (value == true) {
-                      // DateTime scheduleDate = DateTime.now().add(const Duration(seconds: 10));
-                      DateTime scheduledDate = DateTime(11,50,0);
-                      // ScheduleNotificationServices.scheduleRepeatedNotifications(
-                      //   "Scheduled Notification",
-                      //   "This is the body of a scheduled notification",
-                      //   scheduleDate
+                      DateTime scheduleDate = DateTime.now().add(const Duration(seconds: 10));
+                      // DateTime scheduledDate = DateTime(11,22,0);
+                      ScheduleNotificationServices.showScheduleNotification(
+                        "Scheduled Notification",
+                        "This is the body of a scheduled notification",
+                        scheduleDate
+                      );
+                      // ScheduleNotificationServices.scheduleDaily12PMNotifications(
+                      //   'Scheduled Daily 11:30 PM Notification',
+                      //   'Body of scheduled 11:30 AM notification',
                       // );
-                      ScheduleNotificationServices.scheduleDaily12PMNotifications(
-                        'Scheduled Daily 11:30 PM Notification',
-                        'Body of scheduled 11:30 AM notification',
-                      );
-                      ScheduleNotificationServices.scheduleDailyRepeatedNotifications(
-                        'Scheduled Daily Notification', 
-                        'Body of scheduled daily notification', 
-                        'payload',
-                        scheduledDate
-                      );
+                      // ScheduleNotificationServices.scheduleDailyRepeatedNotifications(
+                      //   'Scheduled Daily Notification', 
+                      //   'Body of scheduled daily notification', 
+                      //   'payload',
+                      //   scheduledDate
+                      // );
+                      // DateTime eventDate = DateTime(01,53,0);
+                      // TimeOfDay eventTime = const TimeOfDay(hour: 10, minute: 0);
+                      // ScheduleNotificationServices.dailyNotificationsScheduler(0, virtues[0], "Test body", eventDate, eventTime, "Test payload");
                     }
+                    //if he decides to cancel the notification, then the notification will be cancelled
                     else{
-                      flutterLocalNotificationsPlugin.cancelAll();
+                      flutterLocalNotificationsPlugin.cancel(0);
                     }
                   });
                 },
@@ -488,10 +493,6 @@ class HomeScreenState extends State<HomeScreen> {
                 //   ScheduleNotificationServices.showScheduleNotification("Scheduled Notification", "This is the body of a scheduled notification", scheduleDate);
                 // }
                 activeColor: Colors.green,
-                inactiveTrackColor: Colors.red,
-                thumbColor: WidgetStateProperty.all(value
-                    ? const Color.fromARGB(245, 241, 238, 238)
-                    : Color.fromARGB(245, 44, 34, 175)),
               ),
               // ),
             ),

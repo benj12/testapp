@@ -94,6 +94,23 @@ class ScheduleNotificationServices {
     );
   }
 
+  static Future<void> dailyNotificationsScheduler(int id, String title, String body, DateTime eventDate, TimeOfDay eventTime, String payload, [DateTimeComponents? dateTimeComponents]) async {
+    final scheduledTime = eventDate.add(
+      Duration(
+        hours: eventTime.hour, 
+        minutes: eventTime.minute,
+      ));
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id, 
+      title, 
+      body, 
+      tz.TZDateTime.from(scheduledTime, tz.local), 
+      const NotificationDetails(iOS: DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true)), 
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      payload: payload,
+      matchDateTimeComponents: dateTimeComponents,
+    );
+  }
   static tz.TZDateTime _nextInstanceOf12PM() {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, 11,30);
