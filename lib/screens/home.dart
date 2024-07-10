@@ -35,7 +35,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   //acronym
   final String acronym = "\nRD FEF KGR FEFEF\n";
-  int integer = 0;
+  int index = 15;
 
   //list of virtues
   List<String> virtues = [
@@ -515,8 +515,9 @@ class HomeScreenState extends State<HomeScreen> {
                     // );
                     int dummyIndex = 0;
                     // scheduleNotificationServices.notificationsDailyAtSpecificTime(dummyIndex, virtues[dummyIndex], definitions[dummyIndex], "this is a payload");
-                    scheduleNotificationServices.scheduleNotificationsDaily(dummyIndex, virtues, definitions);
-                    scheduleNotificationServices.scheduleNotificationAt1235(dummyIndex, virtues, definitions, "Payload");
+                    // scheduleNotificationServices.scheduleNotificationDaily(dummyIndex, virtues, definitions, "Switch pressed so the button works! Hip hip hooray!\n");
+                    // scheduleNotificationServices.scheduleNotificationAt1235(index, dummyIndex, virtues, definitions, "Payload");
+                    scheduleNotificationServices.scheduleNotificationsDaily(index, dummyIndex, virtues, definitions);
                     // ScheduleNotificationServices.notificationsSchedule(dummyIndex, virtues[0], definitions[0]);
                     //scheduleNotificationServices.dailyNotification(dummyIndex, virtues[dummyIndex], definitions[dummyIndex]);
                   }
@@ -686,8 +687,8 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             // ),
           ),
-          const Text(
-            'Scheduled virtues remaining: 13',
+          Text(
+            'Scheduled virtues remaining: ${index--}',
             textAlign: TextAlign.center,
           ),
         ],

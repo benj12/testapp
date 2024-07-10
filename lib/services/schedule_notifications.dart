@@ -57,9 +57,35 @@ class ScheduleNotificationServices {
     await _flutterLocalNotificationsPlugin.initialize(initalizationSettings);
   }
 
-  Future<void> scheduleNotificationAt1235(int notificationID, List<String> virtues, List<String> definitions, String payload) async {
+  Future<void> scheduleNotificationDaily(int notificationID, List<String> virtues, List<String> definitions, String payload) async {
     DateTime now = DateTime.now();
-    DateTime scheduledDate = DateTime(now.year, now.month, now.day, 12, 53);
+    DateTime tomorrow = now.add(const Duration(days: 1));
+    DateTime notificationTime = tomorrow.add(const Duration(hours: 8, minutes: 15, seconds: 0));
+    tz.TZDateTime scheduledTime = tz.TZDateTime.from(notificationTime, tz.local);
+    DarwinNotificationDetails ios = const DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        presentBanner: true);
+    NotificationDetails notificationDetails = NotificationDetails(iOS: ios);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      notificationID,
+      virtues[notificationID],
+      definitions[notificationID],
+      scheduledTime,
+      notificationDetails,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+    );
+
+    print("Notification toggle switch pressed: $payload");
+
+
+  }
+
+
+  Future<void> scheduleNotificationAt1235(int counter, int notificationID, List<String> virtues, List<String> definitions, String payload) async {
+    DateTime now = DateTime.now();
+    DateTime scheduledDate = DateTime(now.year, now.month, now.day, 16, 44);
     DarwinNotificationDetails ios = const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true, presentBanner: true);
     NotificationDetails notificationDetails = NotificationDetails(iOS: ios);
     tz.TZDateTime scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
@@ -71,7 +97,8 @@ class ScheduleNotificationServices {
       notificationDetails, 
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
     );
-    scheduledDate = DateTime(now.year, now.month, now.day, 12, 55);
+    counter--;
+    scheduledDate = DateTime(now.year, now.month, now.day, 16, 45);
     scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
     notificationID++;
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -82,15 +109,42 @@ class ScheduleNotificationServices {
       notificationDetails, 
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
     );
-    print("Notification payload: ${payload}");
+    counter--;
+    scheduledDate = DateTime(now.year, now.month, now.day, 16, 46);
+    scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    notificationID++;
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationID,
+        virtues[notificationID],
+        definitions[notificationID],
+        scheduledTime,
+        notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+    counter--;
+    scheduledDate = DateTime(now.year, now.month, now.day, 16, 47);
+    scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    notificationID++;
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationID,
+        virtues[notificationID],
+        definitions[notificationID],
+        scheduledTime,
+        notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+    counter--;
+    
+    print("Notification payload: $payload");
+    
   }
 
-  Future<void> scheduleNotificationsDaily(int notificationID, List<String> virtues, List<String> definitions) async {
+  Future<void> scheduleNotificationsDaily(int counter, int notificationID, List<String> virtues, List<String> definitions) async {
     //setting number of days that push notifications will be scheduled daily for
     int numDays = 14;
     try{
       for (int i = 0; i < numDays; i++){
-        DateTime notificationTime = DateTime.now().add(Duration(days: i+1)).add(const Duration(hours: 21, minutes: 9, seconds: 59));
+        DateTime notificationTime = DateTime.now().add(Duration(days: i+1)).add(const Duration(hours: 6, minutes: 0, seconds: 0));
 
 
         //NotificationDetails
