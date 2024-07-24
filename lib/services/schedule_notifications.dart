@@ -195,56 +195,6 @@ class ScheduleNotificationServices {
     return scheduledDate;
   }
 
-  // static Future<void> notificationsSchedule(int notificationID, String title, String body) async {
-  //   final AwesomeNotifications awesomeNotifications = AwesomeNotifications();
-  //   await awesomeNotifications.createNotification(
-  //     schedule: NotificationCalendar(
-  //       day: 8,
-  //       month: 7,
-  //       year: 2024,
-  //       hour: 21,
-  //       minute: 07,
-  //       second: 00
-  //     ),
-  //     content: NotificationContent(
-  //       id: Random().nextInt(100),
-  //       title: title,
-  //       body: body,
-  //       channelKey: 'scheduled_notification'
-  //     ),
-  //   );
-  // }
-
-  // NotificationChannel notificationChannel = NotificationChannel(
-  //         channelGroupKey: 'reminders',
-  //         channelDescription: 'Notification.',
-  //         channelKey: 'scheduled_notification',
-  //         channelName: 'Scheduled notification',
-  //         defaultColor: const Color(0xFF9D50DD),
-  // );
-  //schedule daily 8 AM notifications
-  Future<void> schedule8AMNotify(int id, String title, String body) async {
-    //time set for 8 AM
-    DateTime scheduledDate = DateTime(8, 0);
-
-    //iOS notification details
-    DarwinNotificationDetails iOSDetails = const DarwinNotificationDetails(
-        presentAlert: true, presentBadge: true, presentSound: true);
-
-    //Notification details object
-    NotificationDetails notifyDetails = NotificationDetails(iOS: iOSDetails);
-
-    //send notification at 8 AM daily
-    // await flutterLocalNotificationsPlugin.showDailyAtTime(
-    //   id,
-    //   title,
-    //   body,
-    //   tz.TZDateTime.from(scheduledDate, tz.local),
-    //   notifyDetails,
-    //   uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-    //   matchDateTimeComponents: DateTimeComponents.dateAndTime
-    // );
-  }
 
   Future<void> notificationsDailyAtSpecificTime(int id, String title, String body, String payload) async {
     const int hour = 15;
@@ -271,74 +221,6 @@ class ScheduleNotificationServices {
     );
   }
 
-  // Future<void> dailyNotify(int id, String title, String body) async {
-  //   final DateTime now = DateTime.now();
-  //   final DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
-  //   final int hour = 8;
-  //   final int minute = 0;
-
-  //   await flutterLocalNotificationsPlugin.scheduleDailyNotification(
-  //     id: id,
-  //     title: title,
-  //     body: body,
-  //     notificationPayload: 'daily_notification',
-  //     trigger: NotificationTrigger.everyDayAtHourMinute(hour, minute)
-  //   );
-  // }
-  // Future<void> scheduleDaily8AMNotification(int id, String title, String body, ) async {
-  //   var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-  //   // Android-specific: Configure the notification details
-  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //     'daily_notification',
-  //     'Daily Notification',
-  //     'Shows a notification at 8 AM daily',
-  //     importance: Importance.high,
-  //     priority: Priority.high,
-  //     channelShowBadge: true,
-  //   );
-
-  //   // iOS-specific: Configure the notification details
-  //   var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true);
-
-  //   // General notification details
-  //   var platformChannelSpecifics = NotificationDetails(
-  //     android: androidPlatformChannelSpecifics,
-  //     iOS: iOSPlatformChannelSpecifics,
-  //   );
-
-  //   // Schedule the notification at 8 AM
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //     id, // Notification ID
-  //     title,
-  //     body,
-  //     _nextInstanceOf8AM(), // Schedule for 8 AM daily
-  //     platformChannelSpecifics,
-  //     // ignore: deprecated_member_use
-  //     androidAllowWhileIdle: true,
-  //     uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,
-  //   );
-  // }
-  // void initializeTimeZones(){
-  //   tz.initializeTimeZones();
-  // }
-  // tz.TZDateTime _nextInstanceOf8AM() {
-  //   // Get the current timezone
-  //   tz.initializeTimeZones();
-  //   tz.setLocalLocation(tz.getLocation('America/New-York'));
-
-  //   // Create a time object set to 8 AM
-  //   var now = tz.TZDateTime.now(tz.local);
-  //   var scheduledDate =
-  //       tz.TZDateTime(tz.local, now.year, now.month, now.day, 8);
-
-  //   // If 8 AM has passed, schedule it for the next day
-  //   if (now.isAfter(scheduledDate)) {
-  //     scheduledDate = scheduledDate.add(Duration(days: 1));
-  //   }
-
-  //   return scheduledDate;
-  // }
 
   Future<void> dailyNotification(int id, String title, String body) async {
     //specific time to schedule notification
@@ -425,34 +307,6 @@ class ScheduleNotificationServices {
     );
   }
 
-  static tz.TZDateTime _nextInstanceOf12PM() {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 11, 30);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  // static Future<void> showDailyAtTime() async {
-  //   DateTime time = DateTime(11,38,0);
-  //   DarwinNotificationDetails iOSNotificationDetails = const DarwinNotificationDetails(presentAlert: true, presentSound: true, presentBadge: true);
-  //   NotificationDetails notificationDetails = NotificationDetails(iOS: iOSNotificationDetails);
-  //   await flutterLocalNotificationsPlugin.showDailyAtTime(
-  //     0,
-  //     'Test Title at ${time.hour}',
-  //     'Test Body',
-  //     time,
-  //     notificationDetails,
-  //     payload: 'Test Payload',
-  //   );
-  // }
-  timePicking(context) async {
-    showTimePicker(context: context, initialTime: TimeOfDay.now()).then((time) {
-      print(time?.format(context));
-    });
-  }
 
   // static Future<void> configureLocalTimeZone() async {
   //   if(kIsWeb || Platform.isLinux) {
@@ -463,76 +317,7 @@ class ScheduleNotificationServices {
   //   tz.setLocalLocation(tz.getLocation(timeZoneName));
   // }
 
-  Future<void> scheduleDaily9PMNotification(
-      int id, String title, String body, String payload) async {
-    //Notification details for iOS
-    DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
-        presentAlert: true, presentBadge: true, presentSound: true);
-    NotificationDetails platformChannelSpecifics =
-        NotificationDetails(iOS: iosDetails);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        id, title, body, nextInstanceOf9PM(), platformChannelSpecifics,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time);
-  }
 
-  tz.TZDateTime nextInstanceOf9PM() {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 22, 25);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  static Future<void> scheduleDaily12PMNotifications(
-      String title, String body) async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
-      title,
-      body,
-      _nextInstanceOf12PM(),
-      const NotificationDetails(
-          iOS: DarwinNotificationDetails(
-              presentAlert: true, presentBadge: true, presentSound: true)),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-    );
-  }
-
-  // static Future<void> scheduleMultipleNotifications(String title, String body, DateTime scheduledDate) async {
-  //   for (int i = 0; i < 14; i++){
-  //     showScheduleNotification(title, body, scheduledDate);
-  //   }
-
-  // }
-  // TZDateTime _convertTime(int hour) {
-  //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-  //   tz.TZDateTime scheduleDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, 47);
-  //   return scheduleDate;
-  // }
-  static Future<void> scheduleRepeatedNotifications(
-      String title, String body, DateTime scheduledTime) async {
-    //DateTime dailyTime = DateTime(12,20,0);
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-        iOS: DarwinNotificationDetails(
-            presentAlert: true, presentBadge: true, presentSound: true));
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-        0, title, body, RepeatInterval.daily, platformChannelSpecifics,
-        payload: 'New payload');
-  }
-
-  static Future<void> scheduleDailyNotifications(
-      String title, String body, DateTime scheduledTime) async {
-    DarwinNotificationDetails iOSDetails = const DarwinNotificationDetails(
-        presentBadge: true, presentAlert: true, presentSound: true);
-    NotificationDetails platformChannelSpecifics =
-        NotificationDetails(iOS: iOSDetails);
-    await flutterLocalNotificationsPlugin
-        .show(0, title, body, platformChannelSpecifics, payload: 'New payload');
-  }
 
   void sendNotification(int id, String title, String body) async {
     DarwinNotificationDetails darwinNotificationDetails =
