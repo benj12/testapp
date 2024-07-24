@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Test10Screen extends StatelessWidget {
   const Test10Screen({super.key});
-  final String virtue = "Compassionate";
-  final String virtueDefinition = "I go out of my way to understand my fellowman's plight, and do all that I can to help him grow in truth";
+  final String virtue = "Test10";
+  final String virtueDefinition = "This is test10";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

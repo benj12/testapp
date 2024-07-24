@@ -35,48 +35,48 @@ class HomeScreenState extends State<HomeScreen> {
   //bool value = true;
 
   //acronym
-  final String acronym = "\nHI EISVS CFCGR SS\n";
+  final String acronym = "\nDO MI NUSVO BRES\n";
   int index = 14;
 
   //list of virtues
   List<String> virtues = [
-    "Humble",
-    "Inquisitive",
-    "Essentially Focused",
-    "Integrated",
-    "Studious",
-    "Vigilant",
-    "Steadfast",
-    "Courageous",
-    "Faithful",
-    "Compassionate",
-    "Grateful",
-    "Reverent",
-    "Simple",
-    "Strives for Excellence"
+    "test1",
+    "test2",
+    "test3",
+    "test4",
+    "test5",
+    "test6",
+    "test7",
+    "test8",
+    "test9",
+    "test10",
+    "test11",
+    "test12",
+    "test13",
+    "test14"
   ];
 
   //list of virtue definitions
   List<String> definitions = [
-    "I am open to all truth, even if it is in the form of a correction",
-    "I love learning. I yearn to know the truth. I love the truth. I take an interest in the world, people and God",
-    "I strive to keep my thought centered on the essential, not caught up in mere accidents and privations nor in irrelevancies",
-    "I am committed to thinking and acting based on grounded principle",
-    "I make time each day to study fundamental physics and the truths that grow out of it so that my understanding of it will grow",
-    "I am alert so that I will not miss out on opportunities to learn and grow, even when facing difficult circumstances, and to help others do the same.",
-    "I will perservere in my commitment to learn and live the truth, especially the fundamental truths on which all others depend, and to help others do the same knowing that God will assist me in His grace",
-    "I am willing to enter the battle and unflinchingly attack problems where I find them",
-    "I follow through on my IAP commitments.",
-    "I go out of my way to understand my fellowman's plight, and do all that I can to help him grow in truth",
-    "I will not lose hope in God or the tasks He has given me, but be thankful for all He has given me in my very existence and all the truth He gives me each day, especially through my work with IAP.",
-    "I order all my actions towards growth toward the Unchangeable Changer and accept all He offers me",
-    "I strive to be intellectually deep and quick and articulate thoughts succintly and clearly without over-complication",
-    "I strive to learn completely everything that is in front of me to learn, purging any errors or even imperfections in the essence of my learning"
+    "This is Test1",
+    "This is test2",
+    "This is test3",
+    "This is test4",
+    "This is test5",
+    "This is test6",
+    "This is test7",
+    "This is test8",
+    "This is test9",
+    "This is test10",
+    "This is test11",
+    "This is test12",
+    "This is test13",
+    "This is test14"
   ];
   
   //oath
   final String oath =
-      "\nIn truth and in the Name of Truth Himself, I will do all that it is in my power to learn and integrate the fundamental physics into my life, especially living out the 14 virtues of an IAP member, and to grow my love for truth; to help my family, friends, and associates do the same; to do all that I can to be the best soldier in the battle to reestablish a healthy, vibrant, grounded culture and defeat the equation-alone based culture.\n";
+      "\nDominus vobiscum et cum spiritu tuo. Kyrie eleison. Kyrie eleison. Christe eleison. Christe eleison. Kyrie eleison.\n";
   ScheduleNotificationServices scheduleNotificationServices =
       ScheduleNotificationServices();
   @override
@@ -122,7 +122,7 @@ class HomeScreenState extends State<HomeScreen> {
         // child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset('assets/images/256x256.jpeg', fit: BoxFit.cover),
+          Image.asset('assets/images/sky.jpeg', fit: BoxFit.cover),
           //const Padding(padding: EdgeInsets.only(bottom: 240)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(

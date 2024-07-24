@@ -9,8 +9,8 @@ class Test1Screen extends StatefulWidget {
 
 
 class Test1ScreenState extends State<Test1Screen> {
-  final String title = "Humble";
-  final String virtueDefinition = "I am open to all truth, even if it is in the form of a correction";
+  final String title = "Test1";
+  final String virtueDefinition = "This is test1";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
