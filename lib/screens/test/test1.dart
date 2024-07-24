@@ -10,7 +10,7 @@ class Test1Screen extends StatefulWidget {
 
 class Test1ScreenState extends State<Test1Screen> {
   final String title = "Test1";
-  final String virtueDefinition = "Test1 is a test page.";
+  final String virtueDefinition = "This is test1";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +20,9 @@ class Test1ScreenState extends State<Test1Screen> {
       body: Center(
         child: Text(
           virtueDefinition,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black, fontSize: 20), 
           textAlign: TextAlign.center,
+
         ),
       ),
       // body: Center(

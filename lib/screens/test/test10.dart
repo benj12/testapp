@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Test10Screen extends StatelessWidget {
   const Test10Screen({super.key});
   final String virtue = "Test10";
-  final String virtueDefinition = "This is a test page for Test10";
+  final String virtueDefinition = "This is test10";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class Test10Screen extends StatelessWidget {
       body: Center(
         child: Text(
           virtueDefinition,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black, fontSize: 20),
           textAlign: TextAlign.center,
         ),
       ),

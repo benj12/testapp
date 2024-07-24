@@ -1,10 +1,12 @@
 
 import 'dart:async';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:testapp/screens/home.dart';
 //import 'package:/timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
 
 
 class ScheduleNotificationServices {
@@ -32,7 +34,7 @@ class ScheduleNotificationServices {
       initializationSettings,
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
       onDidReceiveBackgroundNotificationResponse:
-          onDidReceiveNotificationResponse,
+        onDidReceiveNotificationResponse,
     );
   }
 
@@ -57,6 +59,26 @@ class ScheduleNotificationServices {
     await _flutterLocalNotificationsPlugin.initialize(initalizationSettings);
   }
 
+
+  Future<void> dNotifs(String title, String body) async {
+    //initialize IOS notifications and put them in NotificationDetails object
+    DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
+        presentAlert: true, presentBadge: true, presentSound: false);
+    NotificationDetails notDetails = NotificationDetails(iOS: iosDetails);
+
+    //show notifications daily
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+        0, title, body, RepeatInterval.daily, notDetails);
+  }
+
+  Future<void> cronScheduler(String title, String body) async {
+    //initialize IOS notification details and put them in NotificationDetails object
+    DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: false);
+    NotificationDetails notDetails = NotificationDetails(iOS: iosDetails);
+
+    //show notifications daily using a cron job
+    final cron = Cron();
+  }
   Future<void> scheduleNotificationDaily(int notificationID, List<String> virtues, List<String> definitions, String payload) async {
     DateTime now = DateTime.now();
     DateTime tomorrow = now.add(const Duration(days: 1));
@@ -84,11 +106,12 @@ class ScheduleNotificationServices {
 
 
   Future<void> scheduleNotificationAt1235(int counter, int notificationID, List<String> virtues, List<String> definitions, String payload) async {
+    DateTime notificationDate = DateTime.now().add(const Duration(hours: 10));
     DateTime now = DateTime.now();
-    DateTime scheduledDate = DateTime(now.year, now.month, now.day, 16, 44);
+    DateTime scheduledDate = DateTime(now.year, now.month, now.day, 22,40);
     DarwinNotificationDetails ios = const DarwinNotificationDetails(presentAlert: true, presentBadge: true, presentSound: true, presentBanner: true);
     NotificationDetails notificationDetails = NotificationDetails(iOS: ios);
-    tz.TZDateTime scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    tz.TZDateTime scheduledTime = tz.TZDateTime.from(notificationDate, tz.local);
     await flutterLocalNotificationsPlugin.zonedSchedule(
       notificationID, 
       virtues[notificationID], 
@@ -98,46 +121,186 @@ class ScheduleNotificationServices {
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
     );
     counter--;
-    scheduledDate = DateTime(now.year, now.month, now.day, 16, 45);
-    scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    notificationID++;
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      notificationID, 
-      virtues[notificationID], 
-      definitions[notificationID], 
-      scheduledTime, 
-      notificationDetails, 
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
-    );
-    counter--;
-    scheduledDate = DateTime(now.year, now.month, now.day, 16, 46);
-    scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    notificationID++;
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        notificationID,
-        virtues[notificationID],
-        definitions[notificationID],
-        scheduledTime,
-        notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-    counter--;
-    scheduledDate = DateTime(now.year, now.month, now.day, 16, 47);
-    scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    notificationID++;
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        notificationID,
-        virtues[notificationID],
-        definitions[notificationID],
-        scheduledTime,
-        notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-    counter--;
+    // //second
+    // scheduledDate = DateTime(now.year, now.month, now.day, 22, 50);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //   notificationID, 
+    //   virtues[notificationID], 
+    //   definitions[notificationID], 
+    //   scheduledTime, 
+    //   notificationDetails, 
+    //   uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+    // );
+
+    // //third
+    // counter--;
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 00);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    // counter--;
+
+    // //fourth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 10);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    // counter--;
+
+    // //fifth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 20);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    // counter--;
+
+    // //sixth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 30);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    // counter--;
+
+    // //seventh
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 40);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
     
-    print("Notification payload: $payload");
+    // //eighth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 50);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+
+    // //ninth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 00);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+
+    // //tenth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 10);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+
+    // //eleventh
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 20);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+
+    // //twelfth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 30);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    
+    // //thirteenth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 40);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+
+    // //fourteenth
+    // scheduledDate = DateTime(now.year, now.month, now.day, 0,50);
+    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+    // notificationID++;
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     notificationID,
+    //     virtues[notificationID],
+    //     definitions[notificationID],
+    //     scheduledTime,
+    //     notificationDetails,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.absoluteTime);
+    
     
   }
+  
+  
+
+
 
   Future<void> scheduleNotificationsDaily(int counter, int notificationID, List<String> virtues, List<String> definitions) async {
     //setting number of days that push notifications will be scheduled daily for
@@ -262,7 +425,7 @@ class ScheduleNotificationServices {
         matchDateTimeComponents: DateTimeComponents.dateAndTime);
   }
 
-  static tz.TZDateTime _scheduledDaily(DateTime time) {
+  tz.TZDateTime _scheduledDaily(DateTime time) {
     final now = tz.TZDateTime.now(tz.local);
     final scheduledTime = tz.TZDateTime(tz.local, now.year, now.month, now.day,
         time.hour, time.minute, time.second);
@@ -271,7 +434,7 @@ class ScheduleNotificationServices {
         : scheduledTime;
   }
 
-  static Future<void> scheduleDailyRepeatedNotifications(int id, String title,
+  Future<void> scheduleDailyRepeatedNotifications(int id, String title,
       String body, String payload, DateTime scheduledDate) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
@@ -285,7 +448,7 @@ class ScheduleNotificationServices {
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
 
-  static Future<void> dailyNotificationsScheduler(int id, String title,
+  Future<void> dailyNotificationsScheduler(int id, String title,
       String body, DateTime eventDate, TimeOfDay eventTime, String payload,
       [DateTimeComponents? dateTimeComponents]) async {
     final scheduledTime = eventDate.add(Duration(
@@ -308,6 +471,7 @@ class ScheduleNotificationServices {
   }
 
 
+
   // static Future<void> configureLocalTimeZone() async {
   //   if(kIsWeb || Platform.isLinux) {
   //     return;
@@ -316,7 +480,6 @@ class ScheduleNotificationServices {
   //   final String timeZoneName = await FlutterTimezone.getLocalTimezone();
   //   tz.setLocalLocation(tz.getLocation(timeZoneName));
   // }
-
 
 
   void sendNotification(int id, String title, String body) async {
@@ -329,7 +492,7 @@ class ScheduleNotificationServices {
     NotificationDetails notificationDetails =
         NotificationDetails(iOS: darwinNotificationDetails);
 
-    _flutterLocalNotificationsPlugin.show(
+    flutterLocalNotificationsPlugin.show(
       id,
       title,
       body,
@@ -347,7 +510,8 @@ class ScheduleNotificationServices {
     NotificationDetails notificationDetails =
         NotificationDetails(iOS: darwinNotificationDetails);
 
-    _flutterLocalNotificationsPlugin.periodicallyShow(
+    flutterLocalNotificationsPlugin.periodicallyShow(
         id, title, body, RepeatInterval.everyMinute, notificationDetails);
   }
 }
+

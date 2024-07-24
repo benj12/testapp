@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/instance_manager.dart';
 import 'package:testapp/services/local_notification_service.dart';
 import 'package:testapp/services/schedule_notifications.dart';
 import 'package:testapp/screens/test/test1.dart';
@@ -33,30 +34,30 @@ class HomeScreenState extends State<HomeScreen> {
   //bool value = true;
 
   //acronym
-  final String acronym = "\nRD FEF KGR FEFEF\n";
-  int index = 15;
+  final String acronym = "\nDO MI NUSVO BRES\n";
+  int index = 14;
 
   //list of virtues
   List<String> virtues = [
-    "Test1",
-    "Test2",
-    "Test3",
-    "Test4",
-    "Test5",
-    "Test6",
-    "Test7",
-    "Test8",
-    "Test9",
-    "Test10",
-    "Test11",
-    "Test12",
-    "Test13",
-    "Test14"
+    "test1",
+    "test2",
+    "test3",
+    "test4",
+    "test5",
+    "test6",
+    "test7",
+    "test8",
+    "test9",
+    "test10",
+    "test11",
+    "test12",
+    "test13",
+    "test14"
   ];
 
   //list of virtue definitions
   List<String> definitions = [
-    "This is test1",
+    "This is Test1",
     "This is test2",
     "This is test3",
     "This is test4",
@@ -71,10 +72,10 @@ class HomeScreenState extends State<HomeScreen> {
     "This is test13",
     "This is test14"
   ];
-
+  
   //oath
   final String oath =
-      "\nThis is a test paragraph. Dominus vobiscum, et cum spiritu tuo. Kyrie eleison, kyrie eleison. Christe eleison, christe eleison. Kyrie eleison.\n";
+      "\nDominus vobiscum et cum spiritu tuo. Kyrie eleison. Kyrie eleison. Christe eleison. Christe eleison. Kyrie eleison.\n";
   ScheduleNotificationServices scheduleNotificationServices =
       ScheduleNotificationServices();
   @override
@@ -83,44 +84,52 @@ class HomeScreenState extends State<HomeScreen> {
     scheduleNotificationServices.initializeNotifications();
     LocalNotificationService.initialize(flutterLocalNotificationsPlugin);
   }
-
+  
+  bool isDarkMode = false;
   @override
   Widget build(BuildContext context) {
+    if(Theme.of(context).colorScheme == ThemeData.dark){
+      isDarkMode = true;
+    }
+    else {isDarkMode = false;}
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        flexibleSpace: Image.asset('assets/images/sky.jpeg', fit: BoxFit.cover),
-        toolbarHeight: 200,
-        // backgroundColor: Colors.transparent,
-        // iconTheme: const IconThemeData(color: Colors.white),
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.contain, height: 32),
-            // padding: const EdgeInsets.all(8.0),
-            // child:
-            Text('Virtues App'),
-          ],
-          // Container(
+      backgroundColor: isDarkMode ? Colors.black: Colors.white,
+      extendBodyBehindAppBar: false,
+      // appBar: AppBar(
+      //   //flexibleSpace: Image.asset('assets/images/256x256.jpeg', fit: BoxFit.cover),
+      //   toolbarHeight: 200,
+      //   // backgroundColor: Colors.transparent,
+      //   // iconTheme: const IconThemeData(color: Colors.white),
+      //   title: const Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       // Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.contain, height: 32),
+      //       // padding: const EdgeInsets.all(8.0),
+      //       // child:
+      //       Text(
+      //         'Virtues App',
+      //       ),
+      //     ],
+      //     // Container(
 
-          // ),
-        ),
-        // title: const Text('Virtues app'),
-      ),
+      //     // ),
+      //   ),
+      //   // title: const Text('Virtues app'),
+      // ),
       
       body: ListView(
-        
         // child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Image.asset('assets/images/sky.jpeg', fit: BoxFit.cover),
           //const Padding(padding: EdgeInsets.only(bottom: 240)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,//Theme.of(context).colorScheme.primary,//Colors.blue,
+              foregroundColor: Colors.black//Theme.of(context).colorScheme.onPrimary//Colors.white,
             ),
             onPressed: () {
               Navigator.push(
@@ -141,8 +150,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -163,10 +172,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,//Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.black//Theme.of(context).colorScheme.onPrimary,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -186,10 +194,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -209,8 +216,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -231,10 +238,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -254,8 +260,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -276,10 +282,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -299,10 +304,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -322,10 +326,9 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
-            //TODO: Make a favorites button with a heart icon right by Saints picture
             onPressed: () {
               Navigator.push(
                 context,
@@ -345,8 +348,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -367,8 +370,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -389,8 +392,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -412,8 +415,8 @@ class HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               // backgroundColor: Colors.lightBlue[50],
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -448,8 +451,8 @@ class HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               //backgroundColor: const Color.fromARGB(255, 49, 128, 184),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
             ),
             onPressed: () {
               // scheduleNotificationServices.scheduleNotification(
@@ -460,8 +463,7 @@ class HomeScreenState extends State<HomeScreen> {
               // setState((){
               //   _pressedDailySchedule = !_pressedDailySchedule;
               // });
-              ScheduleNotificationServices.showInstantNotification(
-                  virtues[0], definitions[0]);
+              ScheduleNotificationServices.showInstantNotification(virtues[0], definitions[0]);
             },
             child: const Text(
               'Send virtue notification',
@@ -481,6 +483,14 @@ class HomeScreenState extends State<HomeScreen> {
                   "This is the body of a scheduled notification",
                   scheduleDate);
             },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              //backgroundColor: const Color.fromARGB(255, 49, 128, 184),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+            ),
             child: const Text("Schedule Notification"),
           ),
           
@@ -515,8 +525,9 @@ class HomeScreenState extends State<HomeScreen> {
                     int dummyIndex = 0;
                     // scheduleNotificationServices.notificationsDailyAtSpecificTime(dummyIndex, virtues[dummyIndex], definitions[dummyIndex], "this is a payload");
                     // scheduleNotificationServices.scheduleNotificationDaily(dummyIndex, virtues, definitions, "Switch pressed so the button works! Hip hip hooray!\n");
-                    // scheduleNotificationServices.scheduleNotificationAt1235(index, dummyIndex, virtues, definitions, "Payload");
-                    scheduleNotificationServices.scheduleNotificationsDaily(index, dummyIndex, virtues, definitions);
+                    //scheduleNotificationServices.scheduleNotificationAt1235(index, dummyIndex, virtues, definitions, "Payload");
+                    scheduleNotificationServices.dNotifs(virtues[0], definitions[0]);
+                    //scheduleNotificationServices.scheduleNotificationsDaily(index, dummyIndex, virtues, definitions);
                     // ScheduleNotificationServices.notificationsSchedule(dummyIndex, virtues[0], definitions[0]);
                     //scheduleNotificationServices.dailyNotification(dummyIndex, virtues[dummyIndex], definitions[dummyIndex]);
                   }
@@ -695,12 +706,4 @@ class HomeScreenState extends State<HomeScreen> {
       // ),
     );
   }
-
-  // Widget buildIOSSwitch() => Transform.scale(
-  //       scale: 1.1,
-  //       child: CupertinoSwitch(
-  //         value: value,
-  //         onChanged: (value) => setState(() => this.value = value),
-  //       ),
-  //     );
 }
