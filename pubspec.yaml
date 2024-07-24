@@ -43,6 +43,7 @@ dependencies:
   rrule: ^0.2.16
   flutter_timezone: ^2.0.0
   device_info_plus: ^10.1.0
+  cron: ^0.6.1
   shared_preferences: ^2.2.3
   awesome_notifications: ^0.9.3+1
 
@@ -56,6 +57,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+flutter_icons: 
+  android: true
+  ios: true
+  image_path: "assets/images/AppIcon27.5x27.5@2x.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
