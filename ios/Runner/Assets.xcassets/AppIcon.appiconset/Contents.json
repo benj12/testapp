@@ -113,6 +113,12 @@
       "idiom" : "ios-marketing",
       "filename" : "Icon-App-1024x1024@1x.png",
       "scale" : "1x"
+    },
+    {
+      "size": "98x98",
+      "idiom": "iphone",
+      "filename": "AppIcon98x98@2x.png",
+      "scale": "2x"
     }
   ],
   "info" : {

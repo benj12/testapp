@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Test3Screen extends StatelessWidget {
   const Test3Screen({super.key});
-  final String virtue = "Test3";
-  final String virtueDefinition = "This is a test page for test3";
+  final String virtue = "Essentially Focused";
+  final String virtueDefinition = "I strive to keep my thought centered on the essential, not caught up in mere accidents and privations nor in irrelevancies";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class Test3Screen extends StatelessWidget {
       body: Center(
         child: Text(
           virtueDefinition,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black, fontSize: 20),
           textAlign: TextAlign.center,
         ),
       ),
