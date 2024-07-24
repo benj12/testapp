@@ -20,7 +20,6 @@ import 'package:testapp/screens/test/test14.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-bool _pressedDailySchedule = false;
 bool theme = false;
 bool value = false;
 
