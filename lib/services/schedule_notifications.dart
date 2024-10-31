@@ -1,17 +1,17 @@
 
 import 'dart:async';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:testapp/screens/home.dart';
 //import 'package:/timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-
+import 'package:workmanager/workmanager.dart';
 
 
 class ScheduleNotificationServices {
   static final FlutterLocalNotificationsPlugin
-      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future<void> onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {}
@@ -36,10 +36,12 @@ class ScheduleNotificationServices {
       onDidReceiveBackgroundNotificationResponse:
         onDidReceiveNotificationResponse,
     );
+
+    
   }
 
   //Android initialization settings
-  final AndroidInitializationSettings _androidInitializationSettings =
+  final AndroidInitializationSettings androidInitializationSettings =
       const AndroidInitializationSettings('@mipmap/launcher');
 
   //ios initialization settings
@@ -51,15 +53,15 @@ class ScheduleNotificationServices {
   );
 
   void initializeNotifications() async {
-    InitializationSettings initalizationSettings = InitializationSettings(
-        android: _androidInitializationSettings,
+    InitializationSettings initializationSettings = InitializationSettings(
+        android: androidInitializationSettings,
         iOS: initializationSettingsiOS);
 
     //initializing the notifications for both iOS and Android
-    await _flutterLocalNotificationsPlugin.initialize(initalizationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-
+  
   Future<void> dNotifs(String title, String body) async {
     //initialize IOS notifications and put them in NotificationDetails object
     DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
@@ -121,181 +123,6 @@ class ScheduleNotificationServices {
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
     );
     counter--;
-    // //second
-    // scheduledDate = DateTime(now.year, now.month, now.day, 22, 50);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //   notificationID, 
-    //   virtues[notificationID], 
-    //   definitions[notificationID], 
-    //   scheduledTime, 
-    //   notificationDetails, 
-    //   uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
-    // );
-
-    // //third
-    // counter--;
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 00);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    // counter--;
-
-    // //fourth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 10);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    // counter--;
-
-    // //fifth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 20);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    // counter--;
-
-    // //sixth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 30);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    // counter--;
-
-    // //seventh
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 40);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    
-    // //eighth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 23, 50);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-
-    // //ninth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 00);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-
-    // //tenth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 10);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-
-    // //eleventh
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 20);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-
-    // //twelfth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 30);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    
-    // //thirteenth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0, 40);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-
-    // //fourteenth
-    // scheduledDate = DateTime(now.year, now.month, now.day, 0,50);
-    // scheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
-    // notificationID++;
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     notificationID,
-    //     virtues[notificationID],
-    //     definitions[notificationID],
-    //     scheduledTime,
-    //     notificationDetails,
-    //     uiLocalNotificationDateInterpretation:
-    //         UILocalNotificationDateInterpretation.absoluteTime);
-    
-    
   }
   
   
@@ -404,13 +231,18 @@ class ScheduleNotificationServices {
   }
 
   //show instant notification
-  static Future<void> showInstantNotification(String title, String body) async {
+  static Future<void> showInstantNotification(String title, String body, String payload) async {
     //Define Notification details
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(iOS: DarwinNotificationDetails());
     await flutterLocalNotificationsPlugin.show(
-        0, title, body, platformChannelSpecifics);
-  }
+      0, 
+      title, 
+      body, 
+      platformChannelSpecifics, 
+      payload: payload
+    );
+  } 
 
   //show a schedule notification
   static Future<void> showScheduleNotification(

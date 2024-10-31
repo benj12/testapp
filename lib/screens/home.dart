@@ -121,7 +121,7 @@ class HomeScreenState extends State<HomeScreen> {
         // child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset('assets/images/sky.jpeg', fit: BoxFit.cover),
+          Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.cover),
           //const Padding(padding: EdgeInsets.only(bottom: 240)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -463,7 +463,8 @@ class HomeScreenState extends State<HomeScreen> {
               // setState((){
               //   _pressedDailySchedule = !_pressedDailySchedule;
               // });
-              ScheduleNotificationServices.showInstantNotification(virtues[0], definitions[0]);
+              
+              ScheduleNotificationServices.showInstantNotification(virtues[0], definitions[0], "/test1");
             },
             child: const Text(
               'Send virtue notification',
