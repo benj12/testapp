@@ -95,28 +95,6 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.black: Colors.white,
       extendBodyBehindAppBar: false,
-      // appBar: AppBar(
-      //   //flexibleSpace: Image.asset('assets/images/256x256.jpeg', fit: BoxFit.cover),
-      //   toolbarHeight: 200,
-      //   // backgroundColor: Colors.transparent,
-      //   // iconTheme: const IconThemeData(color: Colors.white),
-      //   title: const Row(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       // Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.contain, height: 32),
-      //       // padding: const EdgeInsets.all(8.0),
-      //       // child:
-      //       Text(
-      //         'Virtues App',
-      //       ),
-      //     ],
-      //     // Container(
-
-      //     // ),
-      //   ),
-      //   // title: const Text('Virtues app'),
-      // ),
-      
       body: ListView(
         // child: Column(
         // mainAxisAlignment: MainAxisAlignment.center,
@@ -494,12 +472,6 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             child: const Text("Schedule Notification"),
           ),
-          
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     await scheduleNotificationServices.notificationsSchedule(0, virtues[0], definitions[0]);
-          //   },
-          // ),
           const Text(
             '\nSchedule notifications for 14 days',
             style: TextStyle(
@@ -516,174 +488,10 @@ class HomeScreenState extends State<HomeScreen> {
                   value = onChanged;
                   //if user presses on notification button, notification will be sent
                   if (value == true){
-                    // int index = 0;
-                    // scheduleNotificationServices.scheduleDaily9PMNotification(
-                    //   index,
-                    //   virtues[index],
-                    //   definitions[index],
-                    //   "payload"
-                    // );
                     int dummyIndex = 0;
-                    // scheduleNotificationServices.notificationsDailyAtSpecificTime(dummyIndex, virtues[dummyIndex], definitions[dummyIndex], "this is a payload");
-                    // scheduleNotificationServices.scheduleNotificationDaily(dummyIndex, virtues, definitions, "Switch pressed so the button works! Hip hip hooray!\n");
-                    //scheduleNotificationServices.scheduleNotificationAt1235(index, dummyIndex, virtues, definitions, "Payload");
                     scheduleNotificationServices.dNotifs(virtues[0], definitions[0]);
-                    //scheduleNotificationServices.scheduleNotificationsDaily(index, dummyIndex, virtues, definitions);
-                    // ScheduleNotificationServices.notificationsSchedule(dummyIndex, virtues[0], definitions[0]);
-                    //scheduleNotificationServices.dailyNotification(dummyIndex, virtues[dummyIndex], definitions[dummyIndex]);
                   }
-                  //if user presses on notification button
-                  // if (value == true) {
-                  //   DateTime scheduleDate = DateTime.now().add(const Duration(minutes: 1));
-                  //   // DateTime scheduledDate = DateTime(16,21,0);
-                  //   // for (int index = 0; index < virtues.length; index++) {
-                  //   int index = 0;
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   integer = 14 - (index+1);
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 2));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   index++;
-                  //   //third index
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 3));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   index++;
-                  //   //fourth index
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 4));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //fifth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 5));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //sixth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 6));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //seventh index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 7));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //eighth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 8));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //ninth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 9));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //tenth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 10));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //eleventh index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 11));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //twelfth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 12));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //thirteenth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 13));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   //fourteenth index
-                  //   index++;
-                  //   scheduleDate = DateTime.now().add(const Duration(minutes: 14));
-                  //   ScheduleNotificationServices.showScheduleNotification(
-                  //     index,
-                  //     virtues[index],
-                  //     definitions[index],
-                  //     scheduleDate,
-                  //   );
-                  //   // }
-                    // ScheduleNotificationServices
-                    //     .scheduleDailyRepeatedNotifications(
-                    //   id,
-                    //   virtues[0],
-                    //   definitions[0],
-                    //   "payload",
-                    //   scheduleDate,
-                    // );
-                    // id++;
-                    // ScheduleNotificationServices.scheduleDaily12PMNotifications(
-                    //   'Scheduled Daily 11:30 PM Notification',
-                    //   'Body of scheduled 11:30 AM notification',
-                    // );
-                    // ScheduleNotificationServices.scheduleDailyRepeatedNotifications(
-                    //   'Scheduled Daily Notification',
-                    //   'Body of scheduled daily notification',
-                    //   'payload',
-                    //   scheduledDate
-                    // );
-                    // DateTime eventDate = DateTime(01,53,0);
-                    // TimeOfDay eventTime = const TimeOfDay(hour: 10, minute: 0);
-                    // ScheduleNotificationServices.dailyNotificationsScheduler(0, virtues[0], "Test body", eventDate, eventTime, "Test payload");
+                  
                   //if he decides to cancel the notification, then the notification will be cancelled
                   else {
                     flutterLocalNotificationsPlugin.cancel(0);
