@@ -13,7 +13,7 @@ import 'package:testapp/screens/test/test3.dart';
 import 'package:testapp/screens/test/test4.dart';
 import 'package:testapp/screens/test/test4.dart';
 import 'package:testapp/screens/test/test5.dart';
-import 'package:workmanager/workmanager.dart';
+// import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
@@ -36,17 +36,17 @@ void main() async {
 
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
   tz.initializeTimeZones();
-  Workmanager().initialize(callbackDispatcher);
+  // Workmanager().initialize(callbackDispatcher);
   runApp(MyApp());
 }
 
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    // Handle the task
-    await showNotification();
-    return Future.value(true);
-  });
-}
+// void callbackDispatcher() {
+//   // Workmanager().executeTask((task, inputData) async {
+//   //   // Handle the task
+//   //   await showNotification();
+//   //   return Future.value(true);
+//   // });
+// }
 
 Future<void> showNotification() async {
   // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -120,16 +120,7 @@ class MyApp extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    try {
-      Workmanager().registerPeriodicTask(
-    "daily_notification",
-    "simplePeriodicTask",
-    frequency: Duration(minutes: 1),
-    initialDelay: Duration(minutes: 1),
-  );
-} catch (e) {
-  print("Error registering periodic task: $e");
-}
+    
 
     // Workmanager().registerPeriodicTask("daily_notification", "simplePeriodicTask", frequency: Duration(minutes: 1), initialDelay: Duration(minutes: 1));
     return MaterialApp(

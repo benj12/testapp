@@ -83,8 +83,6 @@ flutter:
   assets:
     - assets/images/tesla-truck.jpeg
     - assets/images/sky.jpeg
-    - assets/images/AppIcon27.5x27.5@2x.jpeg
-    - assets/images/256x256.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
