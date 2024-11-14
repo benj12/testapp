@@ -454,13 +454,19 @@ class HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {
-              DateTime scheduleDate =
-                  DateTime.now().add(const Duration(seconds: 5));
-              ScheduleNotificationServices.showScheduleNotification(
-                  0,
-                  "Scheduled Notification",
-                  "This is the body of a scheduled notification",
-                  scheduleDate);
+              DateTime scheduledDay;
+              for (int i = 1; i <= 14; i++){
+                scheduledDay = DateTime.now().add(Duration(days: i));
+                ScheduleNotificationServices.showScheduleNotification(
+                    0,
+                    "Scheduled Notification",
+                    "This is the body of a scheduled notification",
+                    scheduledDay);
+              }
+              // DateTime firstDay =
+              //     DateTime.now().add(const Duration(days: 1));
+
+              
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(

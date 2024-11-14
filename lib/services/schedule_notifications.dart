@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:/timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:workmanager/workmanager.dart';
 
 
 class ScheduleNotificationServices {
@@ -70,7 +69,7 @@ class ScheduleNotificationServices {
 
     //show notifications daily
     await flutterLocalNotificationsPlugin.periodicallyShow(
-        0, title, body, RepeatInterval.daily, notDetails);
+        0, title, body, RepeatInterval.everyMinute, notDetails);
   }
 
   Future<void> cronScheduler(String title, String body) async {
