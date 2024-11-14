@@ -61,15 +61,18 @@ class ScheduleNotificationServices {
   }
 
   
-  Future<void> dNotifs(String title, String body) async {
+  Future<void> dNotifs(List<String> titles, List<String> bodies) async {
     //initialize IOS notifications and put them in NotificationDetails object
     DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
         presentAlert: true, presentBadge: true, presentSound: false);
     NotificationDetails notDetails = NotificationDetails(iOS: iosDetails);
 
     //show notifications daily
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-        0, title, body, RepeatInterval.everyMinute, notDetails);
+    for (int i = 0; i < titles.length; i++){
+      await flutterLocalNotificationsPlugin.periodicallyShow(0, titles[i], bodies[i], RepeatInterval.everyMinute, notDetails);
+    }
+    // await flutterLocalNotificationsPlugin.periodicallyShow(
+    //     0, title, body, RepeatInterval.everyMinute, notDetails);
   }
 
   Future<void> cronScheduler(String title, String body) async {
