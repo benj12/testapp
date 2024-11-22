@@ -495,7 +495,11 @@ class HomeScreenState extends State<HomeScreen> {
                   //if user presses on notification button, notification will be sent
                   if (value == true){
                     int dummyIndex = 0;
-                    scheduleNotificationServices.dNotifs(virtues, definitions);
+                    List <DateTime> scheduledDates = [];
+                    for(int i = 1; i <= virtues.length; i++){
+                      scheduledDates.add(DateTime.now().add(Duration(days:i)));
+                    }
+                    scheduleNotificationServices.dNotifs(virtues, definitions, scheduledDates);
                   }
                   
                   //if he decides to cancel the notification, then the notification will be cancelled
