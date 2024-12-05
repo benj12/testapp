@@ -4,6 +4,22 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:testapp/screens/test/test1.dart';
+import 'package:testapp/screens/test/test2.dart';
+import 'package:testapp/screens/test/test3.dart';
+import 'package:testapp/screens/test/test4.dart';
+import 'package:testapp/screens/test/test5.dart';
+import 'package:testapp/screens/test/test6.dart';
+import 'package:testapp/screens/test/test7.dart';
+import 'package:testapp/screens/test/test8.dart';
+import 'package:testapp/screens/test/test9.dart';
+import 'package:testapp/screens/test/test10.dart';
+import 'package:testapp/screens/test/test11.dart';
+import 'package:testapp/screens/test/test12.dart';
+import 'package:testapp/screens/test/test13.dart';
+import 'package:testapp/screens/test/test14.dart';
+
+
 //import 'package:/timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -34,11 +50,23 @@ class ScheduleNotificationServices {
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
       onDidReceiveBackgroundNotificationResponse:
         onDidReceiveNotificationResponse,
+      // onPressed:  
     );
 
     
   }
 
+  // Future<void> _onPressed(String? payload, int num) async {
+  //   if(payload != null){
+  //     switch(num){
+  //       case 1: 
+  //         Navigator.push(context, MaterialPageRoute(builder: (context) => ScheduleNotifications(payload)));
+  //       case 2: 
+  //         Navigator.push(context, MaterialPageRoute(builder: (context) => Test2Screen()));
+  //       }
+  //     Navigator.push(context, MaterialPageRoute(builder: (context) => ))
+  //   }
+  // }
   //Android initialization settings
   final AndroidInitializationSettings androidInitializationSettings =
       const AndroidInitializationSettings('@mipmap/launcher');
