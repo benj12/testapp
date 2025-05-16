@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:testapp/services/local_notification_service.dart';
 import 'package:testapp/services/schedule_notifications.dart';
 import 'package:testapp/screens/test/test1.dart';
@@ -18,6 +18,32 @@ import 'package:testapp/screens/test/test11.dart';
 import 'package:testapp/screens/test/test12.dart';
 import 'package:testapp/screens/test/test13.dart';
 import 'package:testapp/screens/test/test14.dart';
+
+
+void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Alert"),
+          content: const Text("This is a simple alert dialog."),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+}
+
+
+
+
+
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -36,6 +62,27 @@ class HomeScreenState extends State<HomeScreen> {
   //acronym
   final String acronym = "\nDO MI NUSVO BRES\n";
   int index = 14;
+  bool isDarkMode = false;
+  bool _initialized = false;
+
+
+  //list of routes
+  List<String> routes = [
+    '/test1',
+    '/test2',
+    '/test3',
+    '/test4',
+    '/test5',
+    '/test6',
+    '/test7',
+    '/test8',
+    '/test9',
+    '/test10',
+    '/test11',
+    '/test12',
+    '/test13',
+    '/test14'
+  ];
 
   //list of virtues
   List<String> virtues = [
@@ -83,31 +130,79 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     scheduleNotificationServices.initializeNotifications();
     LocalNotificationService.initialize(flutterLocalNotificationsPlugin);
+    // Show permission dialog after a short delay to ensure the UI is ready
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _showNotificationPermissionDialog();
+    });
   }
-  
-  bool isDarkMode = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      isDarkMode = Theme.of(context).brightness == Brightness.dark;
+      _initialized = true;
+    }
+  }
+
+  void _toggleTheme() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+      Get.changeThemeMode(isDarkMode ? ThemeMode.dark : ThemeMode.light);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if(Theme.of(context).colorScheme == ThemeData.dark){
-      isDarkMode = true;
-    }
-    else {isDarkMode = false;}
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        title: const Text('Virtues App'),
+        actions: [
+          // Theme toggle switch in app bar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Icon(
+                  isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                const SizedBox(width: 8),
+                Switch(
+                  value: isDarkMode,
+                  onChanged: (value) => _toggleTheme(),
+                  activeColor: Theme.of(context).colorScheme.secondary,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       body: ListView(
-        // child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.asset('assets/images/tesla-truck.jpeg', fit: BoxFit.cover),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+            ),
+            onPressed: () => _showAlert(context),
+            child: const Text("Show Alert"),
+          ),
+          
           //const Padding(padding: EdgeInsets.only(bottom: 240)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,//Theme.of(context).colorScheme.primary,//Colors.blue,
-              foregroundColor: Colors.black//Theme.of(context).colorScheme.onPrimary//Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -128,8 +223,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -150,8 +245,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,//Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.black//Theme.of(context).colorScheme.onPrimary,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -172,8 +267,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -194,8 +289,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -216,8 +311,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -238,8 +333,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -260,8 +355,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -282,8 +377,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -304,8 +399,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -326,8 +421,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -348,8 +443,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -370,8 +465,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -392,9 +487,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              // backgroundColor: Colors.lightBlue[50],
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.push(
@@ -428,21 +522,25 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              //backgroundColor: const Color.fromARGB(255, 49, 128, 184),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             onPressed: () {
-              // scheduleNotificationServices.scheduleNotification(
-              //   id++,
-              //   "This is a title",
-              //   "This is a body",
-              // );
-              // setState((){
-              //   _pressedDailySchedule = !_pressedDailySchedule;
-              // });
+              // Show an instant notification
+              ScheduleNotificationServices.showInstantNotification(
+                virtues[0],  // title
+                definitions[0],  // body
+                routes[0]  // route to navigate to when tapped
+              );
               
-              ScheduleNotificationServices.showInstantNotification(virtues[0], definitions[0], "/test1");
+              // Also schedule a notification for 1 minute later
+              DateTime scheduledTime = DateTime.now().add(const Duration(minutes: 1));
+              ScheduleNotificationServices.showScheduleNotification(
+                1,  // different ID to avoid conflicts
+                "Scheduled Virtue",
+                "This is a scheduled notification",
+                scheduledTime
+              );
             },
             child: const Text(
               'Send virtue notification',
@@ -454,6 +552,7 @@ class HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {
+              ScheduleNotificationServices.testNotification();
               DateTime scheduledDay;
               for (int i = 1; i <= 14; i++){
                 scheduledDay = DateTime.now().add(Duration(days: i));
@@ -463,6 +562,7 @@ class HomeScreenState extends State<HomeScreen> {
                     "This is the body of a scheduled notification",
                     scheduledDay);
               }
+
               // DateTime firstDay =
               //     DateTime.now().add(const Duration(days: 1));
 
@@ -472,9 +572,8 @@ class HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              //backgroundColor: const Color.fromARGB(255, 49, 128, 184),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
             ),
             child: const Text("Schedule Notification"),
           ),
@@ -497,9 +596,10 @@ class HomeScreenState extends State<HomeScreen> {
                     int dummyIndex = 0;
                     List <DateTime> scheduledDates = [];
                     for(int i = 1; i <= virtues.length; i++){
-                      scheduledDates.add(DateTime.now().add(Duration(days:i)));
+                      // scheduledDates.add(DateTime.now().add(Duration(days:i)));
+                      scheduledDates.add(DateTime.now().add(Duration(minutes: i)));
                     }
-                    scheduleNotificationServices.dNotifs(virtues, definitions, scheduledDates);
+                    scheduleNotificationServices.dNotifs(virtues, definitions, scheduledDates, routes);
                   }
                   
                   //if he decides to cancel the notification, then the notification will be cancelled
@@ -512,7 +612,7 @@ class HomeScreenState extends State<HomeScreen> {
               //   DateTime scheduleDate = DateTime.now().add(const Duration(seconds: 5));
               //   ScheduleNotificationServices.showScheduleNotification("Scheduled Notification", "This is the body of a scheduled notification", scheduleDate);
               // }
-              activeColor: Colors.green,
+              activeTrackColor: Colors.green,
             ),
             // ),
           ),
@@ -522,7 +622,56 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      // ),
+    );
+  }
+
+  Future<void> _showNotificationPermissionDialog() async {
+    if (!mounted) return;
+    
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Enable Notifications'),
+          content: const Text(
+            'Would you like to receive notifications for daily virtues and reminders?',
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Not Now'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Enable'),
+              onPressed: () async {
+                // Request notification permissions
+                final bool? permissionGranted = await flutterLocalNotificationsPlugin
+                    .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+                    ?.requestPermissions(
+                  alert: true,
+                  badge: true,
+                  sound: true,
+                  critical: true,
+                );
+                
+                if (permissionGranted == true) {
+                  // Show a test notification to confirm it works
+                  ScheduleNotificationServices.showInstantNotification(
+                    "Notifications Enabled",
+                    "You will now receive daily virtue notifications",
+                    "/test1"
+                  );
+                }
+                
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
