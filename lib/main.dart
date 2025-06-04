@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:testapp/controllers/theme_controller.dart';
 import 'package:testapp/services/schedule_notifications.dart';
 import 'package:testapp/screens/home.dart';
 import 'package:testapp/screens/test/test1.dart';
@@ -22,51 +23,53 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   debugPrint("In main function");
   WidgetsFlutterBinding.ensureInitialized();
+  final notificationService = ScheduleNotificationServices();
+  await notificationService.initializeNotifications();
   
-  // Initialize notifications
-  await ScheduleNotificationServices().initializeNotifications();
+  // Initialize theme controller
+  final themeController = Get.put(ThemeController());
   
-  // Show test notification after a short delay to ensure initialization is complete
-  Future.delayed(const Duration(seconds: 2), () async {
-    debugPrint('Showing test notification after delay');
-    await ScheduleNotificationServices.testNotification();
-  });
-  
-  runApp(const MyApp());
+  runApp(
+    GetMaterialApp(
+      navigatorKey: navigatorKey,
+      initialRoute: '/',
+      theme: ThemeController.lightTheme,
+      darkTheme: ThemeController.darkTheme,
+      themeMode: ThemeMode.system,
+      getPages: [
+        GetPage(name: '/', page: () => const HomeScreen()),
+        GetPage(name: '/test1', page: () => const Test1Screen()),
+        GetPage(name: '/test2', page: () => const Test2Screen()),
+        GetPage(name: '/test3', page: () => const Test3Screen()),
+        GetPage(name: '/test4', page: () => const Test4Screen()),
+        GetPage(name: '/test5', page: () => const Test5Screen()),
+        GetPage(name: '/test6', page: () => const Test6Screen()),
+        GetPage(name: '/test7', page: () => const Test7Screen()),
+        GetPage(name: '/test8', page: () => const Test8Screen()),
+        GetPage(name: '/test9', page: () => const Test9Screen()),
+        GetPage(name: '/test10', page: () => const Test10Screen()),
+        GetPage(name: '/test11', page: () => const Test11Screen()),
+        GetPage(name: '/test12', page: () => const Test12Screen()),
+        GetPage(name: '/test13', page: () => const Test13Screen()),
+        GetPage(name: '/test14', page: () => const Test14Screen()),
+      ]
+    )
+  );
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // Define theme data
-  static final ThemeData lightTheme = ThemeData(
-    primarySwatch: Colors.blue,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: Colors.white,
-    colorScheme: const ColorScheme.light(
-      primary: Colors.blue,
-      secondary: Colors.green,
-    ),
-  );
-
-  static final ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.blue,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: Colors.black,
-    colorScheme: const ColorScheme.dark(
-      primary: Colors.blue,
-      secondary: Colors.green,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: ThemeController.lightTheme,
+      darkTheme: ThemeController.darkTheme,
       themeMode: ThemeMode.system,
+      defaultTransition: Transition.fade,
       home: const HomeScreen(),
       routes: {
         '/test1': (context) => const Test1Screen(),

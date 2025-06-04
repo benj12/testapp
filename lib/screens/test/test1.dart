@@ -23,9 +23,11 @@ class Test1ScreenState extends State<Test1Screen> {
       body: Center(
         child: Text(
           virtueDefinition,
-          style: const TextStyle(color: Colors.black, fontSize: 20), 
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20
+          ),
           textAlign: TextAlign.center,
-
         ),
       ),
       // body: Center(

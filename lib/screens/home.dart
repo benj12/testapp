@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:testapp/services/local_notification_service.dart';
 import 'package:testapp/services/schedule_notifications.dart';
+import 'package:testapp/services/notifications.dart';
 import 'package:testapp/screens/test/test1.dart';
 import 'package:testapp/screens/test/test2.dart';
 import 'package:testapp/screens/test/test3.dart';
@@ -18,6 +19,7 @@ import 'package:testapp/screens/test/test11.dart';
 import 'package:testapp/screens/test/test12.dart';
 import 'package:testapp/screens/test/test13.dart';
 import 'package:testapp/screens/test/test14.dart';
+import 'package:testapp/controllers/theme_controller.dart';
 
 
 void _showAlert(BuildContext context) {
@@ -62,7 +64,6 @@ class HomeScreenState extends State<HomeScreen> {
   //acronym
   final String acronym = "\nDO MI NUSVO BRES\n";
   int index = 14;
-  bool isDarkMode = false;
   bool _initialized = false;
 
 
@@ -128,8 +129,6 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    scheduleNotificationServices.initializeNotifications();
-    LocalNotificationService.initialize(flutterLocalNotificationsPlugin);
     // Show permission dialog after a short delay to ensure the UI is ready
     Future.delayed(const Duration(milliseconds: 500), () {
       _showNotificationPermissionDialog();
@@ -140,16 +139,12 @@ class HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_initialized) {
-      isDarkMode = Theme.of(context).brightness == Brightness.dark;
       _initialized = true;
     }
   }
 
   void _toggleTheme() {
-    setState(() {
-      isDarkMode = !isDarkMode;
-      Get.changeThemeMode(isDarkMode ? ThemeMode.dark : ThemeMode.light);
-    });
+    ThemeController.to.toggleTheme();
   }
 
   @override
@@ -159,22 +154,24 @@ class HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         title: const Text('Virtues App'),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor: Theme.of(context).appBarTheme.foregroundColor,
         actions: [
           // Theme toggle switch in app bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
-                Icon(
-                  isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                Obx(() => Icon(
+                  ThemeController.to.isDarkMode ? Icons.dark_mode : Icons.light_mode,
                   color: Theme.of(context).colorScheme.onPrimary,
-                ),
+                )),
                 const SizedBox(width: 8),
-                Switch(
-                  value: isDarkMode,
-                  onChanged: (value) => _toggleTheme(),
+                Obx(() => Switch(
+                  value: ThemeController.to.isDarkMode,
+                  onChanged: (_) => ThemeController.to.toggleTheme(),
                   activeColor: Theme.of(context).colorScheme.secondary,
-                ),
+                )),
               ],
             ),
           ),
@@ -532,15 +529,6 @@ class HomeScreenState extends State<HomeScreen> {
                 definitions[0],  // body
                 routes[0]  // route to navigate to when tapped
               );
-              
-              // Also schedule a notification for 1 minute later
-              DateTime scheduledTime = DateTime.now().add(const Duration(minutes: 1));
-              ScheduleNotificationServices.showScheduleNotification(
-                1,  // different ID to avoid conflicts
-                "Scheduled Virtue",
-                "This is a scheduled notification",
-                scheduledTime
-              );
             },
             child: const Text(
               'Send virtue notification',
@@ -552,7 +540,7 @@ class HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {
-              ScheduleNotificationServices.testNotification();
+              // ScheduleNotificationServices.testNotification();
               DateTime scheduledDay;
               for (int i = 1; i <= 14; i++){
                 scheduledDay = DateTime.now().add(Duration(days: i));

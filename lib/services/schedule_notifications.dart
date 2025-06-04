@@ -41,115 +41,157 @@ void _showAlert(BuildContext context) {
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+final FlutterLocalNotificationsPlugin _fln = FlutterLocalNotificationsPlugin();
+
 class ScheduleNotificationServices {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  static Future<void> onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
-    debugPrint('Notification tapped!');
-    debugPrint('Payload: ${notificationResponse.payload}');
-
-    final String? payload = notificationResponse.payload;
-    if (payload != null) {
-      try {
-        debugPrint('Attempting navigation to: $payload');
-        
-        // Wait for the app to be in foreground and have a valid context
-        await Future.delayed(const Duration(milliseconds: 500));
-        
-        if (navigatorKey.currentContext != null) {
-          debugPrint('Valid context found, proceeding with navigation');
-          
-          // Get the target screen
-          final targetScreen = _getScreenForRoute(payload);
-          
-          // Use pushReplacement to ensure clean navigation
-          await Navigator.of(navigatorKey.currentContext!).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => targetScreen,
-              settings: RouteSettings(name: payload),
-            ),
-          );
-          
-          debugPrint('Navigation completed successfully');
-        } else {
-          debugPrint('No valid context found for navigation, retrying...');
-          // Retry navigation after a short delay
-          await Future.delayed(const Duration(seconds: 1));
-          if (navigatorKey.currentContext != null) {
-            final targetScreen = _getScreenForRoute(payload);
-            await Navigator.of(navigatorKey.currentContext!).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => targetScreen,
-                settings: RouteSettings(name: payload),
-              ),
-            );
-            debugPrint('Navigation completed on retry');
-          } else {
-            debugPrint('Still no valid context after retry');
-          }
-        }
-      } catch (e, stackTrace) {
-        debugPrint('Error during navigation: $e');
-        debugPrint('Stack trace: $stackTrace');
-      }
-    }
+  // Background message handler
+  static Future<void> onBackgroundMessage(NotificationResponse response) async {
+    debugPrint('BACKGROUND NOTIFICATION TAPPED');
+    debugPrint('Response type: ${response.notificationResponseType}');
+    debugPrint('Action ID: ${response.actionId}');
+    debugPrint('Payload: ${response.payload}');
   }
 
   Future<void> initializeNotifications() async {
     debugPrint('In initializeNotifications function');
     
-    // Initialize timezone
-    tz.initializeTimeZones();
-    
-    // Request permissions first
-    final bool? permissionGranted = await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-          critical: true,
-        );
-    
-    debugPrint('Notification permissions granted: $permissionGranted');
+    try {
+      // Initialize timezone
+      tz.initializeTimeZones();
+      debugPrint('Timezone initialized');
+      
+      // Request permissions first
+      final bool? permissionGranted = await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+            critical: true,
+          );
+      
+      debugPrint('Notification permissions granted: $permissionGranted');
 
-    const AndroidInitializationSettings androidInitializationSettings =
+      const AndroidInitializationSettings androidInitializationSettings =
+          AndroidInitializationSettings('@mipmap/ic_launcher');
+      debugPrint('Android settings initialized');
+
+      final DarwinInitializationSettings iOSInitializationSettings =
+          DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+      );
+      debugPrint('iOS settings initialized');
+
+      final InitializationSettings initializationSettings = InitializationSettings(
+        android: androidInitializationSettings,
+        iOS: iOSInitializationSettings,
+      );
+      debugPrint('Initialization settings created');
+
+      debugPrint('About to initialize notifications plugin');
+      await flutterLocalNotificationsPlugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse response) async {
+          debugPrint('NOTIFICATION TAPPED - CALLBACK TRIGGERED');
+          debugPrint('Response type: ${response.notificationResponseType}');
+          debugPrint('Action ID: ${response.actionId}');
+          debugPrint('Payload: ${response.payload}');
+          
+          if (response.payload != null) {
+            try {
+              debugPrint('Attempting navigation with payload: ${response.payload}');
+              // Add a small delay to ensure the app is in foreground
+              await Future.delayed(const Duration(milliseconds: 500));
+              
+              if (navigatorKey.currentContext != null) {
+                debugPrint('Valid context found, proceeding with navigation');
+                final targetScreen = _getScreenForRoute(response.payload!);
+                await Navigator.push(
+                  navigatorKey.currentContext!,
+                  MaterialPageRoute(
+                    builder: (context) => targetScreen,
+                    settings: RouteSettings(name: response.payload),
+                  ),
+                );
+                debugPrint('Navigation completed successfully');
+              } else {
+                debugPrint('No valid context found for navigation, retrying...');
+                // Retry after a longer delay
+                await Future.delayed(const Duration(seconds: 1));
+                if (navigatorKey.currentContext != null) {
+                  final targetScreen = _getScreenForRoute(response.payload!);
+                  await Navigator.of(navigatorKey.currentContext!).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => targetScreen,
+                      settings: RouteSettings(name: response.payload),
+                    ),
+                  );
+                  debugPrint('Navigation completed on retry');
+                } else {
+                  debugPrint('Still no valid context after retry');
+                }
+              }
+            } catch (e, stackTrace) {
+              debugPrint('Error during navigation: $e');
+              debugPrint('Stack trace: $stackTrace');
+            }
+          } else {
+            debugPrint('No payload found in notification response');
+          }
+        },
+      );
+      debugPrint('Notifications plugin initialized with callback');
+      
+      // Verify initialization
+      final pendingNotifications = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      debugPrint('Pending notifications after initialization: ${pendingNotifications.length}');
+      
+      debugPrint('Notifications initialized successfully');
+    } catch (e, stackTrace) {
+      debugPrint('Error initializing notifications: $e');
+      debugPrint('Stack trace: $stackTrace');
+      rethrow;
+    }
+  }
+
+  Future<void> initNotifications() async {
+    const AndroidInitializationSettings androidInit =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings iosInit = DarwinInitializationSettings();
+    final InitializationSettings settings =
+        InitializationSettings(android: androidInit, iOS: iosInit);
 
-    final DarwinInitializationSettings iOSInitializationSettings =
-        DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
-        debugPrint('Received local notification: $id, $title, $body, $payload');
-        if (payload != null) {
-          onDidReceiveNotificationResponse(NotificationResponse(
-            notificationResponseType: NotificationResponseType.selectedNotification,
-            actionId: 'id_$id',
-            payload: payload,
-          ));
-        }
+    // For v13+: use onDidReceiveNotificationResponse
+    await _fln.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (NotificationResponse resp) {
+        _handleNotificationTap(resp.payload);
       },
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
-      iOS: iOSInitializationSettings,
-    );
-
-    // Initialize with explicit error handling
-    try {
-      await flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
-        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
-      );
-      debugPrint('Notifications initialized successfully');
-    } catch (e) {
-      debugPrint('Error initializing notifications: $e');
+    // Check if app was launched by tapping a notification:
+    final NotificationAppLaunchDetails? launchDetails =
+        await _fln.getNotificationAppLaunchDetails();
+    if (launchDetails?.didNotificationLaunchApp ?? false) {
+      _handleNotificationTap(launchDetails!.notificationResponse?.payload);
     }
+  }
+
+  void _handleNotificationTap(String? payload) {
+    if (payload == null) return;
+
+    // You could json-decode the payload if it's structured:
+    // final data = jsonDecode(payload);
+    // final route = data['route'];
+    // final id    = data['id'];
+
+    // For a simple route name:
+    navigatorKey.currentState?.pushNamed(payload);
   }
 
   Future<void> dNotifs(
@@ -196,9 +238,7 @@ class ScheduleNotificationServices {
         await flutterLocalNotificationsPlugin.zonedSchedule(
             i, titles[i], bodies[i], scheduledTime, notDetails,
             payload: routes[i],
-            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-            uiLocalNotificationDateInterpretation:
-                UILocalNotificationDateInterpretation.absoluteTime);
+            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
 
         // Verify notification was scheduled
         final pendingNotifs =
@@ -241,8 +281,7 @@ class ScheduleNotificationServices {
         definitions[notificationID],
         scheduledTime,
         notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
 
     print("Notification toggle switch pressed: $payload");
   }
@@ -266,8 +305,7 @@ class ScheduleNotificationServices {
         definitions[notificationID],
         scheduledTime,
         notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
     counter--;
   }
 
@@ -298,9 +336,7 @@ class ScheduleNotificationServices {
           notificationBody,
           _nextInstanceOf(notificationTime),
           platformChannelSpecifics,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-        );
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
 
         // Save notification ID to SharedPreferences
         // await prefs.setInt('notificationId', notificationID);
@@ -347,8 +383,7 @@ class ScheduleNotificationServices {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(id, title, body,
         tz.TZDateTime.from(scheduledDate, tz.local), notificationDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.dateAndTime);
   }
 
@@ -365,8 +400,7 @@ class ScheduleNotificationServices {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(id, title, body,
         tz.TZDateTime.from(scheduledDate, tz.local), notifDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.dateAndTime);
   }
 
@@ -441,8 +475,6 @@ class ScheduleNotificationServices {
         body,
         scheduledTime,
         platformChannelSpecifics,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       );
       debugPrint('Notification scheduled successfully for: $scheduledTime');
@@ -469,8 +501,7 @@ class ScheduleNotificationServices {
         _scheduledDaily(scheduledDate),
         payload: payload,
         const NotificationDetails(iOS: DarwinNotificationDetails()),
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
 
@@ -489,8 +520,7 @@ class ScheduleNotificationServices {
       const NotificationDetails(
           iOS: DarwinNotificationDetails(
               presentAlert: true, presentBadge: true, presentSound: true)),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: payload,
       matchDateTimeComponents: dateTimeComponents,
     );
@@ -525,46 +555,80 @@ class ScheduleNotificationServices {
         NotificationDetails(iOS: darwinNotificationDetails);
 
     flutterLocalNotificationsPlugin.periodicallyShow(
-        id, title, body, RepeatInterval.everyMinute, notificationDetails);
+        id, title, body, RepeatInterval.everyMinute, notificationDetails, androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 
   static Future<void> testNotification() async {
-    debugPrint('Showing test notification...');
+    debugPrint('Starting test notification process...');
     
-    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-      presentBanner: true,
-    );
-
-    const NotificationDetails details = NotificationDetails(
-      iOS: iosDetails,
-      android: AndroidNotificationDetails(
-        'test_channel',
-        'Test Channel',
-        importance: Importance.max,
-        priority: Priority.high,
-        showWhen: true,
-        enableLights: true,
-        enableVibration: true,
-      ),
-    );
-
-    const String payload = '/test1';
-    debugPrint('Test notification payload: $payload');
-
     try {
+      // Check if we have permission
+      final bool? permissionGranted = await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+            critical: true,
+          );
+      
+      debugPrint('Current notification permission status: $permissionGranted');
+
+      const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        presentBanner: true,
+        interruptionLevel: InterruptionLevel.critical,
+        sound: 'default',
+        threadIdentifier: 'test_thread',
+        categoryIdentifier: 'test_category',
+      );
+
+      const NotificationDetails details = NotificationDetails(
+        iOS: iosDetails,
+        android: AndroidNotificationDetails(
+          'test_channel',
+          'Test Channel',
+          importance: Importance.max,
+          priority: Priority.high,
+          showWhen: true,
+          enableLights: true,
+          enableVibration: true,
+          playSound: true,
+          sound: RawResourceAndroidNotificationSound('notification'),
+        ),
+      );
+
+      const String payload = 'test1';
+      debugPrint('Test notification payload: $payload');
+
+      // Cancel any existing test notification
+      await flutterLocalNotificationsPlugin.cancel(999);
+      debugPrint('Cancelled any existing test notification');
+      
+      // Show the notification
       await flutterLocalNotificationsPlugin.show(
         999,
-        'Test Notification',
-        'Tap me to test navigation',
+        '🔔 Test Notification',
+        'This is a test notification - Tap me to test navigation',
         details,
         payload: payload,
       );
-      debugPrint('Test notification shown successfully');
-    } catch (e) {
+      debugPrint('Test notification shown with ID: 999');
+      
+      // Verify notification was shown
+      final pendingNotifications = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      debugPrint('Pending notifications after test: ${pendingNotifications.length}');
+      
+      // Check if the notification is in the pending list
+      final isPending = pendingNotifications.any((notification) => notification.id == 999);
+      debugPrint('Test notification is pending: $isPending');
+      
+      debugPrint('Test notification process completed successfully');
+    } catch (e, stackTrace) {
       debugPrint('Error showing test notification: $e');
+      debugPrint('Stack trace: $stackTrace');
     }
   }
 

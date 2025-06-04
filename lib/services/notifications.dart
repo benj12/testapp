@@ -1,5 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tzdata;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' show UILocalNotificationDateInterpretation;
+
 
 class LocalNotifyManager{
   static final _notifications = FlutterLocalNotificationsPlugin();
@@ -32,8 +35,7 @@ class LocalNotifyManager{
       tz.TZDateTime.from(scheduleTime, tz.local),
       await notificationDetails(),
       payload: payload,
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
     static tz.TZDateTime _scheduledDaily(DateTime time){
       final now = tz.TZDateTime.now(tz.local);
@@ -59,13 +61,26 @@ class LocalNotifyManager{
       var body,
       var payload
     }) async => 
-      _notifications.zonedSchedule(id, title, body, _scheduledDaily(DateTime(04,59)),
-      await notificationDetails(),
-      payload: payload, 
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time);
+      _notifications.zonedSchedule(
+        id, 
+        title, 
+        body, 
+        _scheduledDaily(DateTime(08,00)),
+        await notificationDetails(),
+        payload: payload,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time
+      );
 
+    // 5️⃣ Helpers to show or schedule notifications:
+  static Future<void> showInstant(
+    int id,
+    String title,
+    String body,
+    String routePayload,
+  ) =>
+      _notifications.show(id, title, body, const NotificationDetails(),
+          payload: routePayload);
 
     static notificationDetails() async {
       return const NotificationDetails(

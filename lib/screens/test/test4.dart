@@ -16,7 +16,10 @@ class Test4Screen extends StatelessWidget {
       body: Center(
         child: Text(
           virtueDefinition,
-          style: const TextStyle(color: Colors.black, fontSize: 20),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20
+          ),
           textAlign: TextAlign.center,
         ),
       ),
